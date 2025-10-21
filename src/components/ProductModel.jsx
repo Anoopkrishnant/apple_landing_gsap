@@ -5,12 +5,15 @@ import { Box, OrbitControls } from '@react-three/drei';
 import clsx from 'clsx';
 import MacbookModel from './models/Macbook-14';
 import MacbookModel14 from './models/Macbook-14';
-import StudioLights from './StudioLights';
+import StudioLights from './three/StudioLights';
+import ModelSwitcher from './three/ModelSwitcher';
+import { useMediaQuery } from 'react-responsive';
 
 
 const ProductModel = () => {
     
 const {color,scale, setColor, setScale} = useMacbookStore();
+const isMobile = useMediaQuery({query: '(maxWidth:1024)'})
 
   return (
     <section id='product-viewer'>
@@ -19,10 +22,10 @@ const {color,scale, setColor, setScale} = useMacbookStore();
             <p className='info'> MacbookPro {scale} in {color}</p>
             <div className='flex-center gap-5 mt-5'>
                 <div className='color-control'>
-                    <div onClick={() => setColor("#adb5bd")}
+                    <div onClick={() => setColor("#2e2c2e ")}
                     className={clsx('bg-neutral-300',color == '#abd5bd' && 'active')}
                     />
-                      <div onClick={() => setColor("#2e2c2e ")}
+                      <div onClick={() => setColor("#adb5bd")}
                     className={clsx('bg-neutral-900',color == '#2e2c2e' && 'active')}
                     />
                 </div>
@@ -39,8 +42,8 @@ const {color,scale, setColor, setScale} = useMacbookStore();
         </div>
        <Canvas id="canvas" camera={{position:[0,2,5], fov:50, near:0.1, far:100}}>
          <StudioLights />
-          <MacbookModel14 scale={0.06} position={[0,0,0]} />
-
+          {/* <MacbookModel14 scale={0.06} position={[0,0,0]} /> */}
+        <ModelSwitcher scale={isMobile ?  scale - 0.03 : scale} />
           <OrbitControls enableZoom={false} />
        </Canvas>
         
